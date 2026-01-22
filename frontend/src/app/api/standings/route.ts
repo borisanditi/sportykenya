@@ -15,23 +15,21 @@ export async function GET() {
             return NextResponse.json(cache.data);
         }
 
-        const apiKey = process.env.RAPIDAPI_KEY;
-        const apiHost = process.env.RAPIDAPI_HOST;
+        const apiKey = process.env.API_FOOTBALL_KEY;
 
-        if (!apiKey || !apiHost) {
+        if (!apiKey) {
             return NextResponse.json(
-                { error: 'API configuration missing' },
+                { error: 'API key not configured' },
                 { status: 500 }
             );
         }
 
-        // Fetch Premier League standings from RapidAPI
+        // Fetch Premier League standings from API-Sports (working key)
         const response = await fetch(
-            'https://api-football-v1.p.rapidapi.com/v3/standings?league=39&season=2024',
+            'https://v3.football.api-sports.io/standings?league=39&season=2024',
             {
                 headers: {
-                    'x-rapidapi-key': apiKey,
-                    'x-rapidapi-host': apiHost,
+                    'x-apisports-key': apiKey,
                 },
             }
         );
