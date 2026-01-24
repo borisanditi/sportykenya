@@ -5,16 +5,26 @@ import Link from 'next/link';
 import { Menu, X, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'News', href: '/news' },
-    { name: 'Football', href: '/football' },
-    { name: 'Kenyan Sports', href: '/kenyan-sports' },
-    { name: 'Media', href: '/media' },
-];
+interface NavigationItem {
+    title: string;
+    slug: string;
+}
 
-export function Header() {
+interface HeaderProps {
+    navigation?: NavigationItem[];
+}
+
+export function Header({ navigation = [] }: HeaderProps) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    // Fallback navigation if CMS data is missing
+    const navItems = navigation.length > 0 ? navigation : [
+        { title: 'Home', slug: '/' },
+        { title: 'News', slug: '/news' },
+        { title: 'Football', slug: '/football' },
+        { title: 'Kenyan Sports', slug: '/kenyan-sports' },
+        { title: 'Media', slug: '/media' },
+    ];
 
     return (
         <header className="bg-brand-black text-white sticky top-0 z-50">
@@ -35,9 +45,9 @@ export function Header() {
                     </button>
                 </div>
                 <div className="hidden lg:flex lg:gap-x-8">
-                    {navigation.map((item) => (
-                        <Link key={item.name} href={item.href} className="text-sm font-semibold leading-6 text-white hover:text-brand-gold transition-colors">
-                            {item.name}
+                    {navItems.map((item) => (
+                        <Link key={item.title} href={item.slug} className="text-sm font-semibold leading-6 text-white hover:text-brand-gold transition-colors">
+                            {item.title}
                         </Link>
                     ))}
                 </div>
@@ -68,14 +78,14 @@ export function Header() {
                     <div className="mt-6 flow-root">
                         <div className="-my-6 divide-y divide-gray-500/10">
                             <div className="space-y-2 py-6">
-                                {navigation.map((item) => (
+                                {navItems.map((item) => (
                                     <Link
-                                        key={item.name}
-                                        href={item.href}
+                                        key={item.title}
+                                        href={item.slug}
                                         className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-white/10"
                                         onClick={() => setMobileMenuOpen(false)}
                                     >
-                                        {item.name}
+                                        {item.title}
                                     </Link>
                                 ))}
                             </div>

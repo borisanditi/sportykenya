@@ -2,14 +2,19 @@
 
 import Link from 'next/link';
 
-// Mock data for now
-const breakingNews = [
-    { id: 1, title: "Harambee Stars qualify for AFCON 2027!", href: "/news/harambee-stars-afcon" },
-    { id: 2, title: "Kipchoge sets new course record in Berlin", href: "/news/kipchoge-berlin" },
-    { id: 3, title: "Gor Mahia wins the Mashemeji Derby 2-0", href: "/news/gor-mahia-wins" },
-];
+interface BreakingNewsItem {
+    _id: string;
+    title: string;
+    slug: { current: string };
+}
 
-export function BreakingNews() {
+interface BreakingNewsProps {
+    news: BreakingNewsItem[];
+}
+
+export function BreakingNews({ news = [] }: BreakingNewsProps) {
+    if (!news.length) return null;
+
     return (
         <div className="bg-brand-red text-white text-sm font-medium py-2 overflow-hidden relative">
             <div className="container mx-auto flex items-center">
@@ -19,9 +24,9 @@ export function BreakingNews() {
                 <div className="flex-1 overflow-hidden relative h-5">
                     <div className="animate-marquee whitespace-nowrap absolute top-0 left-0 flex gap-8">
                         {/* Duplicate content for seamless loop */}
-                        {[...breakingNews, ...breakingNews].map((news, index) => (
-                            <Link key={`${news.id}-${index}`} href={news.href} className="hover:underline inline-block">
-                                {news.title}
+                        {[...news, ...news].map((item, index) => (
+                            <Link key={`${item._id}-${index}`} href={`/news/${item.slug.current}`} className="hover:underline inline-block">
+                                {item.title}
                             </Link>
                         ))}
                     </div>

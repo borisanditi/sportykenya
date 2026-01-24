@@ -7,7 +7,7 @@ export default defineConfig({
     name: 'default',
     title: 'SportyKenya',
 
-    projectId: 'YOUR_PROJECT_ID',
+    projectId: 'q1s5pm3f',
     dataset: 'production',
 
     plugins: [structureTool(), visionTool()],

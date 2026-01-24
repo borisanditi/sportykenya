@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { client } from "@/lib/sanity";
+import { SETTINGS_QUERY } from "@/lib/queries";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,21 +21,23 @@ export const metadata: Metadata = {
   description: "Get the latest breaking news, scores, and updates on Kenyan and International sports.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await client.fetch(SETTINGS_QUERY);
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
-        <Header />
+        <Header navigation={settings?.mainNavigation} />
         <main className="flex-grow">
           {children}
         </main>
-        <Footer />
+        <Footer navigation={settings?.footerNavigation} />
       </body>
     </html>
   );

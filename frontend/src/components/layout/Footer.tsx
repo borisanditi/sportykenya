@@ -1,28 +1,40 @@
 import Link from 'next/link';
 
-const navigation = {
-    main: [
-        { name: 'Home', href: '/' },
-        { name: 'News', href: '/news' },
-        { name: 'Football', href: '/football' },
-        { name: 'Kenyan Sports', href: '/kenyan-sports' },
-        { name: 'Media', href: '/media' },
-    ],
-    business: [
-        { name: 'Advertising', href: '/business/advertising' },
-        { name: 'Services', href: '/business/services' },
-        { name: 'Contact', href: '/contact' },
-        { name: 'About Us', href: '/about' },
-    ],
-    social: [
-        { name: 'Facebook', href: '#' },
-        { name: 'Twitter', href: '#' },
-        { name: 'Instagram', href: '#' },
-        { name: 'YouTube', href: '#' },
-    ],
-};
+interface NavigationItem {
+    title: string;
+    slug: string;
+}
 
-export function Footer() {
+interface FooterNavigation {
+    main?: NavigationItem[];
+    business?: NavigationItem[];
+    social?: NavigationItem[];
+}
+
+interface FooterProps {
+    navigation?: FooterNavigation;
+}
+
+export function Footer({ navigation }: FooterProps) {
+    const defaultNav = {
+        main: [
+            { title: 'Home', slug: '/' },
+            { title: 'News', slug: '/news' },
+            { title: 'Football', slug: '/football' },
+            { title: 'Kenyan Sports', slug: '/kenyan-sports' },
+            { title: 'Media', slug: '/media' },
+        ],
+        business: [
+            { title: 'Advertising', slug: '/business/advertising' },
+            { title: 'Services', slug: '/business/services' },
+            { title: 'Contact', slug: '/contact' },
+            { title: 'About Us', slug: '/about' },
+        ],
+    };
+
+    const mainNav = navigation?.main || defaultNav.main;
+    const businessNav = navigation?.business || defaultNav.business;
+
     return (
         <footer className="bg-brand-black text-white" aria-labelledby="footer-heading">
             <h2 id="footer-heading" className="sr-only">
@@ -43,10 +55,10 @@ export function Footer() {
                             <div>
                                 <h3 className="text-sm font-semibold leading-6 text-white">Navigation</h3>
                                 <ul role="list" className="mt-6 space-y-4">
-                                    {navigation.main.map((item) => (
-                                        <li key={item.name}>
-                                            <Link href={item.href} className="text-sm leading-6 text-gray-300 hover:text-white">
-                                                {item.name}
+                                    {mainNav.map((item) => (
+                                        <li key={item.title}>
+                                            <Link href={item.slug} className="text-sm leading-6 text-gray-300 hover:text-white">
+                                                {item.title}
                                             </Link>
                                         </li>
                                     ))}
@@ -55,10 +67,10 @@ export function Footer() {
                             <div className="mt-10 md:mt-0">
                                 <h3 className="text-sm font-semibold leading-6 text-white">Business</h3>
                                 <ul role="list" className="mt-6 space-y-4">
-                                    {navigation.business.map((item) => (
-                                        <li key={item.name}>
-                                            <Link href={item.href} className="text-sm leading-6 text-gray-300 hover:text-white">
-                                                {item.name}
+                                    {businessNav.map((item) => (
+                                        <li key={item.title}>
+                                            <Link href={item.slug} className="text-sm leading-6 text-gray-300 hover:text-white">
+                                                {item.title}
                                             </Link>
                                         </li>
                                     ))}

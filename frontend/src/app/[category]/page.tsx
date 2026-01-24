@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { PremierLeagueTable } from '@/components/sports/PremierLeagueTable';
+import { FootballDashboard } from '@/components/sports/FootballDashboard';
 
 
 // Mock data
@@ -51,7 +51,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                 {/* Premier League Table for Football Category */}
                 {isFootball && (
                     <div className="mb-8">
-                        <PremierLeagueTable />
+                        <FootballDashboard apiKey={process.env.API_FOOTBALL_KEY} />
                     </div>
                 )}
 
