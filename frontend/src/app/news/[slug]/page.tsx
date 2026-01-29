@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { client, urlFor } from '@/lib/sanity';
+import { client } from '@/lib/sanity';
 import { ARTICLE_BY_SLUG_QUERY } from '@/lib/queries';
 import { PortableText } from '@portabletext/react';
 
@@ -26,7 +26,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <div className="relative h-[400px] lg:h-[500px] w-full">
                 {article.mainImage && (
                     <Image
-                        src={urlFor(article.mainImage).url()}
+                        src={article.mainImage}
                         alt={article.title}
                         fill
                         className="object-cover"

@@ -31,11 +31,9 @@ export default defineType({
         }),
         defineField({
             name: 'mainImage',
-            title: 'Main image',
-            type: 'image',
-            options: {
-                hotspot: true,
-            },
+            title: 'Main image URL',
+            type: 'url',
+            description: 'Paste the Cloudinary image URL here',
             validation: (Rule) => Rule.required(),
         }),
         defineField({

@@ -21,11 +21,9 @@ export default defineType({
         }),
         defineField({
             name: 'image',
-            title: 'Image',
-            type: 'image',
-            options: {
-                hotspot: true,
-            },
+            title: 'Image URL',
+            type: 'url',
+            description: 'Paste the Cloudinary image URL here',
         }),
         defineField({
             name: 'bio',

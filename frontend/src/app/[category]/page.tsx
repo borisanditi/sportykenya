@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FootballDashboard } from '@/components/sports/FootballDashboard';
-import { client, urlFor } from '@/lib/sanity';
+import { client } from '@/lib/sanity';
 import {
     ARTICLES_BY_CATEGORY_QUERY,
     FOOTBALL_ARTICLES_QUERY,
@@ -56,7 +56,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                                 <div className="relative h-48 overflow-hidden">
                                     {item.mainImage && (
                                         <Image
-                                            src={urlFor(item.mainImage).url()}
+                                            src={item.mainImage}
                                             alt={item.title}
                                             fill
                                             className="object-cover transition-transform duration-500 group-hover:scale-105"

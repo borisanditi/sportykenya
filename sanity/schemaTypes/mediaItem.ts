@@ -43,11 +43,9 @@ export default defineType({
         }),
         defineField({
             name: 'image',
-            title: 'Image',
-            type: 'image',
-            options: {
-                hotspot: true,
-            },
+            title: 'Image URL',
+            type: 'url',
+            description: 'Paste the Cloudinary image URL here',
             hidden: ({ parent }) => parent?.mediaType === 'video',
         }),
         defineField({
@@ -59,12 +57,12 @@ export default defineType({
         }),
         defineField({
             name: 'gallery',
-            title: 'Gallery Images',
+            title: 'Gallery Image URLs',
             type: 'array',
             of: [
                 {
-                    type: 'image',
-                    options: { hotspot: true },
+                    type: 'url',
+                    description: 'Paste Cloudinary image URL',
                 },
             ],
             hidden: ({ parent }) => parent?.mediaType !== 'gallery',

@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { urlFor } from '@/lib/sanity';
 
 interface Category {
     title: string;
@@ -47,7 +46,7 @@ export function NewsGrid({ posts = [] }: NewsGridProps) {
                             <div className="relative h-48 w-full overflow-hidden">
                                 {item.mainImage && (
                                     <Image
-                                        src={urlFor(item.mainImage).url()}
+                                        src={item.mainImage}
                                         alt={item.title}
                                         fill
                                         className="object-cover group-hover:scale-105 transition-transform duration-300"
