@@ -85,7 +85,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     </div>
                 )}
 
-                <div className="prose prose-lg prose-red max-w-none">
+                <div className="prose prose-lg prose-red max-w-none prose-headings:text-gray-900 prose-p:text-gray-900 prose-li:text-gray-900 prose-strong:text-gray-900">
                     <PortableText
                         value={article.body}
                         components={{
