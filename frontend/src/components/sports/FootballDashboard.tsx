@@ -31,6 +31,7 @@ export function FootballDashboard({ apiKey }: FootballDashboardProps) {
                 src="https://widgets.api-sports.io/2.0.3/widgets.js"
                 type="module"
                 strategy="afterInteractive"
+                crossOrigin="anonymous"
             />
         </div>
     );
