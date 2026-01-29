@@ -1,3 +1,4 @@
+import React from 'react'
 import { defineField, defineType } from 'sanity'
 
 export default defineType({
@@ -105,10 +106,11 @@ export default defineType({
             showOnGrid: 'showOnGrid',
         },
         prepare(selection) {
-            const { author, showOnGrid } = selection
+            const { author, showOnGrid, media } = selection
             return {
                 ...selection,
                 subtitle: `${author ? `by ${author}` : 'No author'}${showOnGrid ? ' • On Grid' : ''}`,
+                media: media ? React.createElement('img', { src: media, style: { width: '100%', height: '100%', objectFit: 'cover' } }) : undefined,
             }
         },
     },

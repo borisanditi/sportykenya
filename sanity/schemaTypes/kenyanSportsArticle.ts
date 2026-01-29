@@ -1,3 +1,4 @@
+import React from 'react'
 import { defineField, defineType } from 'sanity'
 
 export default defineType({
@@ -132,10 +133,11 @@ export default defineType({
             athleteName: 'athleteName',
         },
         prepare(selection) {
-            const { author, sportType, athleteName } = selection
+            const { author, sportType, athleteName, media } = selection
             return {
                 ...selection,
                 subtitle: `${sportType || 'Sport'} ${athleteName ? `• ${athleteName}` : ''} ${author ? `• by ${author}` : ''}`,
+                media: media ? React.createElement('img', { src: media, style: { width: '100%', height: '100%', objectFit: 'cover' } }) : undefined,
             }
         },
     },
