@@ -1,14 +1,15 @@
 import { defineField, defineType } from 'sanity'
 
 export default defineType({
-    name: 'post',
-    title: 'Post',
+    name: 'newsArticle',
+    title: 'News Article',
     type: 'document',
     fields: [
         defineField({
             name: 'title',
             title: 'Title',
             type: 'string',
+            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'slug',
@@ -18,12 +19,14 @@ export default defineType({
                 source: 'title',
                 maxLength: 96,
             },
+            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'author',
             title: 'Author',
             type: 'reference',
             to: { type: 'author' },
+            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'mainImage',
@@ -32,6 +35,7 @@ export default defineType({
             options: {
                 hotspot: true,
             },
+            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'categories',
@@ -43,12 +47,14 @@ export default defineType({
             name: 'publishedAt',
             title: 'Published at',
             type: 'datetime',
+            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'excerpt',
             title: 'Excerpt',
             type: 'text',
             rows: 3,
+            validation: (Rule) => Rule.required().max(300),
         }),
         defineField({
             name: 'body',
@@ -63,20 +69,14 @@ export default defineType({
                     options: { hotspot: true },
                 },
             ],
+            validation: (Rule) => Rule.required(),
         }),
         defineField({
-            name: 'isBreaking',
-            title: 'Breaking News',
-            description: 'Show in the breaking news ticker',
+            name: 'showOnGrid',
+            title: 'Show on Homepage Grid',
             type: 'boolean',
-            initialValue: false,
-        }),
-        defineField({
-            name: 'isFeatured',
-            title: 'Featured Story',
-            description: 'Show in the hero section',
-            type: 'boolean',
-            initialValue: false,
+            description: 'Display this article in the homepage news grid',
+            initialValue: true,
         }),
     ],
 
@@ -85,10 +85,14 @@ export default defineType({
             title: 'title',
             author: 'author.name',
             media: 'mainImage',
+            showOnGrid: 'showOnGrid',
         },
         prepare(selection) {
-            const { author } = selection
-            return { ...selection, subtitle: author && `by ${author}` }
+            const { author, showOnGrid } = selection
+            return {
+                ...selection,
+                subtitle: `${author ? `by ${author}` : 'No author'}${showOnGrid ? ' • On Grid' : ''}`,
+            }
         },
     },
 })

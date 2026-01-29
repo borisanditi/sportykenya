@@ -6,6 +6,9 @@ interface BreakingNewsItem {
     _id: string;
     title: string;
     slug: { current: string };
+    articleSlug?: string;
+    articleType?: string;
+    externalLink?: string;
 }
 
 interface BreakingNewsProps {
@@ -24,11 +27,33 @@ export function BreakingNews({ news = [] }: BreakingNewsProps) {
                 <div className="flex-1 overflow-hidden relative h-5">
                     <div className="animate-marquee whitespace-nowrap absolute top-0 left-0 flex gap-8">
                         {/* Duplicate content for seamless loop */}
-                        {[...news, ...news].map((item, index) => (
-                            <Link key={`${item._id}-${index}`} href={`/news/${item.slug.current}`} className="hover:underline inline-block">
-                                {item.title}
-                            </Link>
-                        ))}
+                        {[...news, ...news].map((item, index) => {
+                            // Determine the link URL
+                            let href = '#';
+                            if (item.articleSlug && item.articleType) {
+                                // Link to the actual article
+                                if (item.articleType === 'footballArticle') {
+                                    href = `/football/${item.articleSlug}`;
+                                } else if (item.articleType === 'kenyanSportsArticle') {
+                                    href = `/kenyan-sports/${item.articleSlug}`;
+                                } else {
+                                    href = `/news/${item.articleSlug}`;
+                                }
+                            } else if (item.externalLink) {
+                                href = item.externalLink;
+                            }
+
+                            return (
+                                <Link
+                                    key={`${item._id}-${index}`}
+                                    href={href}
+                                    className="hover:underline inline-block"
+                                    {...(item.externalLink ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                                >
+                                    {item.title}
+                                </Link>
+                            );
+                        })}
                     </div>
                 </div>
             </div>

@@ -1,35 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FootballDashboard } from '@/components/sports/FootballDashboard';
+import { client, urlFor } from '@/lib/sanity';
+import {
+    ARTICLES_BY_CATEGORY_QUERY,
+    FOOTBALL_ARTICLES_QUERY,
+    KENYAN_SPORTS_QUERY
+} from '@/lib/queries';
 
-
-// Mock data
-const articles = [
-    {
-        id: 1,
-        title: "Henderson helps England into World Cup",
-        excerpt: "Ultrices nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus.",
-        image: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1000&auto=format&fit=crop",
-        category: "Football",
-        date: "June 20, 2026",
-    },
-    {
-        id: 2,
-        title: "Kipchoge breaks another record",
-        excerpt: "The legendary marathon runner has done it again in Berlin.",
-        image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1000&auto=format&fit=crop",
-        category: "Athletics",
-        date: "June 19, 2026",
-    },
-    {
-        id: 3,
-        title: "Harambee Stars preparation for AFCON",
-        excerpt: "The national team is in high spirits ahead of the tournament.",
-        image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?q=80&w=1000&auto=format&fit=crop",
-        category: "Football",
-        date: "June 18, 2026",
-    },
-];
+export const revalidate = 60;
 
 export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
     const { category } = await params;
@@ -38,6 +17,21 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     // Capitalize for display
     const title = decodedCategory.charAt(0).toUpperCase() + decodedCategory.slice(1);
     const isFootball = decodedCategory.toLowerCase().includes('football');
+    const isKenyanSports = decodedCategory.toLowerCase().includes('kenyan-sports');
+
+    let articles = [];
+
+    try {
+        if (isFootball) {
+            articles = await client.fetch(FOOTBALL_ARTICLES_QUERY);
+        } else if (isKenyanSports) {
+            articles = await client.fetch(KENYAN_SPORTS_QUERY);
+        } else {
+            articles = await client.fetch(ARTICLES_BY_CATEGORY_QUERY, { categorySlug: category });
+        }
+    } catch (error) {
+        console.error('Error fetching articles:', error);
+    }
 
     return (
         <div className="bg-gray-50 min-h-screen py-12">
@@ -55,36 +49,52 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                     </div>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {articles.map((item) => (
-                        <article key={item.id} className="bg-white group shadow-sm hover:shadow-md transition-shadow">
-                            <div className="relative h-48 overflow-hidden">
-                                <Image
-                                    src={item.image}
-                                    alt={item.title}
-                                    fill
-                                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                />
-                            </div>
-                            <div className="p-6">
-                                <div className="flex items-center gap-2 mb-3">
-                                    <span className="text-brand-red text-xs font-bold uppercase">
-                                        {item.category}
-                                    </span>
-                                    <span className="text-xs text-gray-500">{item.date}</span>
+                {articles.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {articles.map((item: any) => (
+                            <article key={item._id} className="bg-white group shadow-sm hover:shadow-md transition-shadow">
+                                <div className="relative h-48 overflow-hidden">
+                                    {item.mainImage && (
+                                        <Image
+                                            src={urlFor(item.mainImage).url()}
+                                            alt={item.title}
+                                            fill
+                                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        />
+                                    )}
                                 </div>
-                                <h2 className="text-xl font-bold mb-3 leading-tight group-hover:text-brand-red transition-colors">
-                                    <Link href={`/news/${item.id}`}>
-                                        {item.title}
-                                    </Link>
-                                </h2>
-                                <p className="text-gray-600 text-sm line-clamp-3">
-                                    {item.excerpt}
-                                </p>
-                            </div>
-                        </article>
-                    ))}
-                </div>
+                                <div className="p-6">
+                                    <div className="flex items-center gap-2 mb-3">
+                                        {item.categories?.[0] && (
+                                            <span className={`${item.categories[0].color || 'text-brand-red'} text-xs font-bold uppercase`}>
+                                                {item.categories[0].title}
+                                            </span>
+                                        )}
+                                        <span className="text-xs text-gray-500">
+                                            {new Date(item.publishedAt).toLocaleDateString('en-US', {
+                                                month: 'long',
+                                                day: 'numeric',
+                                                year: 'numeric',
+                                            })}
+                                        </span>
+                                    </div>
+                                    <h2 className="text-xl font-bold mb-3 leading-tight group-hover:text-brand-red transition-colors">
+                                        <Link href={`/news/${item.slug.current}`}>
+                                            {item.title}
+                                        </Link>
+                                    </h2>
+                                    <p className="text-gray-600 text-sm line-clamp-3">
+                                        {item.excerpt}
+                                    </p>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center py-20">
+                        <p className="text-gray-500">No articles found in this category.</p>
+                    </div>
+                )}
             </div>
         </div>
     );
