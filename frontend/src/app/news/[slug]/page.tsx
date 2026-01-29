@@ -86,7 +86,30 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 )}
 
                 <div className="prose prose-lg prose-red max-w-none">
-                    <PortableText value={article.body} />
+                    <PortableText
+                        value={article.body}
+                        components={{
+                            types: {
+                                cloudinaryImage: ({ value }: any) => (
+                                    <figure className="my-8">
+                                        <div className="relative h-[400px] w-full overflow-hidden rounded-lg">
+                                            <Image
+                                                src={value.url}
+                                                alt={value.alt || ''}
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                        {value.caption && (
+                                            <figcaption className="mt-2 text-center text-sm text-gray-500 italic">
+                                                {value.caption}
+                                            </figcaption>
+                                        )}
+                                    </figure>
+                                ),
+                            },
+                        }}
+                    />
                 </div>
             </div>
         </article>

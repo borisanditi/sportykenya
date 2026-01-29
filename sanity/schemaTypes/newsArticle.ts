@@ -63,8 +63,27 @@ export default defineType({
                     type: 'block',
                 },
                 {
-                    type: 'image',
-                    options: { hotspot: true },
+                    type: 'object',
+                    name: 'cloudinaryImage',
+                    title: 'Cloudinary Image',
+                    fields: [
+                        {
+                            name: 'url',
+                            type: 'url',
+                            title: 'Image URL',
+                            description: 'Paste the Cloudinary image URL here',
+                        },
+                        {
+                            name: 'alt',
+                            type: 'string',
+                            title: 'Alt Text',
+                        },
+                        {
+                            name: 'caption',
+                            type: 'string',
+                            title: 'Caption',
+                        },
+                    ],
                 },
             ],
             validation: (Rule) => Rule.required(),
