@@ -21,7 +21,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     }
 
     return (
-        <article className="bg-white min-h-screen pb-12">
+        <article className="bg-white min-h-screen pb-12 text-gray-900">
             {/* Hero Image */}
             <div className="relative h-[400px] lg:h-[500px] w-full">
                 {article.mainImage && (
