@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { NewsGrid } from "@/components/home/NewsGrid";
 import { Scoreboard } from "@/components/home/Scoreboard";
 import { LiveMatches } from "@/components/scorebat/LiveMatches";
+import { EPLTable } from "@/components/scoreaxis/EPLTable";
 import { client } from "@/lib/sanity";
 import { BREAKING_NEWS_QUERY, HERO_STORIES_QUERY, NEWS_GRID_QUERY } from "@/lib/queries";
 
@@ -22,6 +23,7 @@ export default async function Home() {
       <Scoreboard />
       <LiveMatches />
       <NewsGrid posts={gridPosts} />
+      <EPLTable />
     </div>
   );
 }
