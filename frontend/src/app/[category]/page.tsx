@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { FootballDashboard } from '@/components/sports/FootballDashboard';
 import { client } from '@/lib/sanity';
 import {
     ARTICLES_BY_CATEGORY_QUERY,
@@ -42,13 +41,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                     </h1>
                 </div>
 
-                {/* Premier League Table for Football Category */}
-                {isFootball && (
-                    <div className="mb-8">
-                        <FootballDashboard apiKey={process.env.API_FOOTBALL_KEY} />
-                    </div>
-                )}
-
                 {articles.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {articles.map((item: any) => (
@@ -59,6 +51,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                                             src={item.mainImage}
                                             alt={item.title}
                                             fill
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                             className="object-cover transition-transform duration-500 group-hover:scale-105"
                                         />
                                     )}

@@ -51,6 +51,7 @@ export function HeroSection({ stories = [] }: HeroSectionProps) {
                             src={featuredStory.mainImage}
                             alt={featuredStory.title}
                             fill
+                            sizes="(max-width: 1024px) 100vw, 66vw"
                             className="object-cover opacity-60"
                             priority
                         />

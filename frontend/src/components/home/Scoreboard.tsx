@@ -60,7 +60,7 @@ export function Scoreboard() {
                         <div key={match.id} className="flex items-center gap-4 bg-gray-50 rounded-lg px-4 py-2 border border-gray-100 min-w-[280px]">
                             <div className="flex flex-col items-center gap-1 w-12">
                                 <div className="relative w-8 h-8">
-                                    <Image src={match.homeLogo} alt={match.homeTeam} fill className="object-contain rounded-full" />
+                                    <Image src={match.homeLogo} alt={match.homeTeam} fill sizes="32px" className="object-contain rounded-full" />
                                 </div>
                                 <span className="text-[10px] font-semibold text-gray-600 text-center leading-tight">{match.homeTeam}</span>
                             </div>
@@ -81,7 +81,7 @@ export function Scoreboard() {
 
                             <div className="flex flex-col items-center gap-1 w-12">
                                 <div className="relative w-8 h-8">
-                                    <Image src={match.awayLogo} alt={match.awayTeam} fill className="object-contain rounded-full" />
+                                    <Image src={match.awayLogo} alt={match.awayTeam} fill sizes="32px" className="object-contain rounded-full" />
                                 </div>
                                 <span className="text-[10px] font-semibold text-gray-600 text-center leading-tight">{match.awayTeam}</span>
                             </div>
