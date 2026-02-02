@@ -1,9 +1,11 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export function LiveMatches() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     useEffect(() => {
         // Prevent duplicate script injection
@@ -45,18 +47,39 @@ export function LiveMatches() {
                 </div>
 
                 {/* ScoreBat Widget Container */}
-                <div
-                    ref={containerRef}
-                    className="w-full overflow-hidden rounded-lg border border-gray-100 min-h-[600px] bg-gray-50"
-                >
-                    {/* The iframe will be injected here by the script */}
-                    <iframe
-                        id="scorebat-livescore"
-                        src="https://www.scorebat.com/embed/livescore/"
-                        style={{ width: '100%', height: '600px', border: 'none', display: 'block' }}
-                        className="_scorebat_livescore_iframe"
-                        title="Live Scores"
-                    ></iframe>
+                <div className="relative">
+                    <div
+                        ref={containerRef}
+                        className="w-full overflow-hidden rounded-lg border border-gray-100 bg-gray-50 transition-all duration-300"
+                        style={{ height: isExpanded ? '600px' : '400px' }}
+                    >
+                        {/* The iframe will be injected here by the script */}
+                        <iframe
+                            id="scorebat-livescore"
+                            src="https://www.scorebat.com/embed/livescore/"
+                            style={{ width: '100%', height: '600px', border: 'none', display: 'block' }}
+                            className="_scorebat_livescore_iframe"
+                            title="Live Scores"
+                        ></iframe>
+                    </div>
+
+                    {/* Expand/Collapse Button */}
+                    <button
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        className="mt-4 w-full py-2 px-4 bg-brand-black text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 text-sm font-medium"
+                    >
+                        {isExpanded ? (
+                            <>
+                                <ChevronUp className="w-4 h-4" />
+                                Show Less
+                            </>
+                        ) : (
+                            <>
+                                <ChevronDown className="w-4 h-4" />
+                                See More Matches
+                            </>
+                        )}
+                    </button>
                 </div>
 
                 <p className="text-xs text-center text-gray-400 mt-4">

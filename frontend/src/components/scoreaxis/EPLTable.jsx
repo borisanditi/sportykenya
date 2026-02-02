@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export function EPLTable() {
     const containerRef = useRef(null);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     useEffect(() => {
         // Check if script is already loaded
@@ -41,18 +42,46 @@ export function EPLTable() {
                 </div>
 
                 {/* ScoreBat Competition Widget Container */}
-                <div ref={containerRef} className="w-full overflow-hidden rounded-lg border border-gray-100 bg-white">
-                    <iframe
-                        src="https://www.scorebat.com/embed/competition/england-premier-league/?token=MjczOTM2XzE3NzAwNDc2NjhfMDQxODkyNjA5OWMzOGM1NTUzOGNmMWIxOTk1MGFkZTM1ZTJmNGZlZQ=="
-                        frameBorder="0"
-                        width="600"
-                        height="760"
-                        allowFullScreen
-                        allow="autoplay; fullscreen"
-                        style={{ width: '100%', height: '760px', overflow: 'hidden', display: 'block' }}
-                        className="_scorebatEmbeddedPlayer_"
-                        title="ScoreBat Premier League Widget"
-                    ></iframe>
+                <div className="relative">
+                    <div
+                        ref={containerRef}
+                        className="w-full overflow-hidden rounded-lg border border-gray-100 bg-white transition-all duration-300"
+                        style={{ height: isExpanded ? '760px' : '450px' }}
+                    >
+                        <iframe
+                            src="https://www.scorebat.com/embed/competition/england-premier-league/?token=MjczOTM2XzE3NzAwNDc2NjhfMDQxODkyNjA5OWMzOGM1NTUzOGNmMWIxOTk1MGFkZTM1ZTJmNGZlZQ=="
+                            frameBorder="0"
+                            width="600"
+                            height="760"
+                            allowFullScreen
+                            allow="autoplay; fullscreen"
+                            style={{ width: '100%', height: '760px', overflow: 'hidden', display: 'block' }}
+                            className="_scorebatEmbeddedPlayer_"
+                            title="ScoreBat Premier League Widget"
+                        ></iframe>
+                    </div>
+
+                    {/* Expand/Collapse Button */}
+                    <button
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        className="mt-4 w-full py-2 px-4 bg-brand-black text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 text-sm font-medium"
+                    >
+                        {isExpanded ? (
+                            <>
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                                </svg>
+                                Show Less
+                            </>
+                        ) : (
+                            <>
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                                See Full Table
+                            </>
+                        )}
+                    </button>
                 </div>
             </div>
         </section>

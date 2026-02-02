@@ -1,7 +1,6 @@
 import { BreakingNews } from "@/components/home/BreakingNews";
 import { HeroSection } from "@/components/home/HeroSection";
 import { NewsGrid } from "@/components/home/NewsGrid";
-import { Scoreboard } from "@/components/home/Scoreboard";
 import { LiveMatches } from "@/components/scorebat/LiveMatches";
 import { EPLTable } from "@/components/scoreaxis/EPLTable";
 import { client } from "@/lib/sanity";
@@ -20,7 +19,6 @@ export default async function Home() {
     <div className="flex flex-col min-h-screen">
       <BreakingNews news={breakingNews} />
       <HeroSection stories={heroStories} />
-      <Scoreboard />
       <LiveMatches />
       <NewsGrid posts={gridPosts} />
       <EPLTable />
