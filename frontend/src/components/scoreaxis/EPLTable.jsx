@@ -1,9 +1,27 @@
 'use client';
 
-
-import React from 'react';
+import { useEffect, useRef } from 'react';
 
 export function EPLTable() {
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        // Check if script is already loaded
+        if (typeof window === 'undefined' || !containerRef.current) return;
+
+        const scriptId = 'scorebat-jssdk';
+
+        // Only inject script if it doesn't exist
+        if (!document.getElementById(scriptId)) {
+            const script = document.createElement('script');
+            script.id = scriptId;
+            script.src = 'https://www.scorebat.com/embed/embed.js?v=arrv';
+            script.async = true;
+
+            const firstScript = document.getElementsByTagName('script')[0];
+            firstScript.parentNode.insertBefore(script, firstScript);
+        }
+    }, []);
 
     return (
         <section className="bg-white py-8 border-b border-gray-200">
@@ -13,22 +31,27 @@ export function EPLTable() {
                         Premier League Standings
                     </h2>
                     <a
-                        href="https://www.scoreaxis.com"
+                        href="https://www.scorebat.com"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs text-gray-500 hover:text-brand-red transition-colors"
                     >
-                        Live data by ScoreAxis
+                        Powered by ScoreBat
                     </a>
                 </div>
 
-                {/* ScoreAxis Widget Container */}
-                <div className="w-full overflow-hidden rounded-lg border border-gray-100 bg-white">
+                {/* ScoreBat Competition Widget Container */}
+                <div ref={containerRef} className="w-full overflow-hidden rounded-lg border border-gray-100 bg-white">
                     <iframe
-                        src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=mf96ml3i36fi&lang=en&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd"
-                        style={{ width: '100%', height: '600px', border: 'none' }}
-                        title="ScoreAxis EPL League Table"
-                        loading="lazy"
+                        src="https://www.scorebat.com/embed/competition/england-premier-league/?token=MjczOTM2XzE3NzAwNDc2NjhfMDQxODkyNjA5OWMzOGM1NTUzOGNmMWIxOTk1MGFkZTM1ZTJmNGZlZQ=="
+                        frameBorder="0"
+                        width="600"
+                        height="760"
+                        allowFullScreen
+                        allow="autoplay; fullscreen"
+                        style={{ width: '100%', height: '760px', overflow: 'hidden', display: 'block' }}
+                        className="_scorebatEmbeddedPlayer_"
+                        title="ScoreBat Premier League Widget"
                     ></iframe>
                 </div>
             </div>
