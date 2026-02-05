@@ -125,6 +125,7 @@ export const MEDIA_ITEMS_QUERY = groq`*[_type == "mediaItem"] | order(publishedA
   mediaType,
   image,
   videoUrl,
+  embedCode,
   gallery,
   publishedAt,
   "categories": categories[]->{

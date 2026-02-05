@@ -53,7 +53,15 @@ export default defineType({
             name: 'videoUrl',
             title: 'Video URL',
             type: 'url',
-            description: 'YouTube, Vimeo, or other video URL',
+            description: 'YouTube, Vimeo, or other video URL (Direct Link)',
+            hidden: ({ parent }) => parent?.mediaType !== 'video',
+        }),
+        defineField({
+            name: 'embedCode',
+            title: 'Video Embed Code',
+            type: 'text',
+            rows: 3,
+            description: 'Paste the full iframe code from YouTube (Share -> Embed)',
             hidden: ({ parent }) => parent?.mediaType !== 'video',
         }),
         defineField({
