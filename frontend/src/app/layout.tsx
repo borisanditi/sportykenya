@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SocialMediaLinks } from "@/components/ui/SocialMediaLinks";
 import { client } from "@/lib/sanity";
 import { SETTINGS_QUERY } from "@/lib/queries";
 
@@ -37,6 +38,7 @@ export default async function RootLayout({
         <main className="flex-grow">
           {children}
         </main>
+        <SocialMediaLinks variant="floating" />
         <Footer navigation={settings?.footerNavigation} />
       </body>
     </html>

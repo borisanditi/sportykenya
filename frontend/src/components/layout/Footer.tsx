@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SocialMediaLinks } from '@/components/ui/SocialMediaLinks';
 
 interface NavigationItem {
     title: string;
@@ -49,6 +50,7 @@ export function Footer({ navigation }: FooterProps) {
                         <p className="text-sm leading-6 text-gray-300">
                             The #1 source for Kenyan and International sports news.
                         </p>
+                        <SocialMediaLinks />
                     </div>
                     <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
                         <div className="md:grid md:grid-cols-2 md:gap-8">
@@ -85,6 +87,6 @@ export function Footer({ navigation }: FooterProps) {
                     </p>
                 </div>
             </div>
-        </footer>
+        </footer >
     );
 }
