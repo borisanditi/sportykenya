@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { urlFor } from '@/lib/sanity';
 
 interface HeroStory {
     _id: string;
@@ -48,7 +49,7 @@ export function HeroSection({ stories = [] }: HeroSectionProps) {
                 <div className="lg:col-span-2 relative min-h-[400px] flex items-end p-8">
                     {featuredStory.mainImage && (
                         <Image
-                            src={featuredStory.mainImage}
+                            src={urlFor(featuredStory.mainImage).url()}
                             alt={featuredStory.title}
                             fill
                             sizes="(max-width: 1024px) 100vw, 66vw"
