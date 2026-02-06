@@ -90,7 +90,7 @@ export const socialLinks: SocialLink[] = [
     {
         name: 'Facebook',
         platform: 'facebook',
-        url: 'https://www.facebook.com/sportykenya',
+        url: 'https://web.facebook.com/profile.php?id=61566967329432',
         icon: FacebookIcon,
         color: '#1877F2',
         hoverColor: 'hover:text-[#1877F2]',
