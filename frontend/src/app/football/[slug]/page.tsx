@@ -8,10 +8,11 @@ export const revalidate = 60;
 
 export default async function FootballArticlePage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
+    const decodedSlug = decodeURIComponent(slug);
 
     let article = null;
     try {
-        article = await client.fetch(ARTICLE_BY_SLUG_QUERY, { slug });
+        article = await client.fetch(ARTICLE_BY_SLUG_QUERY, { slug: decodedSlug });
     } catch (error) {
         console.error('Error fetching article:', error);
     }
@@ -21,7 +22,8 @@ export default async function FootballArticlePage({ params }: { params: Promise<
             <div className="p-8 max-w-2xl mx-auto mt-20 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <h1 className="text-xl font-bold text-yellow-800 mb-4">Debug: Article Not Found</h1>
                 <div className="space-y-2 text-sm text-yellow-700 font-mono">
-                    <p><strong>Slug Requested:</strong> {slug}</p>
+                    <p><strong>Slug Requested (Raw):</strong> {slug}</p>
+                    <p><strong>Slug Decoded:</strong> {decodedSlug}</p>
                     <p><strong>Project ID:</strong> {process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}</p>
                     <p><strong>Dataset:</strong> {process.env.NEXT_PUBLIC_SANITY_DATASET}</p>
                     <p><strong>Query:</strong> {ARTICLE_BY_SLUG_QUERY}</p>
