@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { getArticleHref } from '@/lib/utils';
 import { client } from '@/lib/sanity';
 import {
     ARTICLES_BY_CATEGORY_QUERY,
@@ -72,7 +73,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                                         </span>
                                     </div>
                                     <h2 className="text-xl font-bold mb-3 leading-tight group-hover:text-brand-red transition-colors">
-                                        <Link href={`/news/${item.slug.current}`}>
+                                        <Link href={getArticleHref(item)}>
                                             {item.title}
                                         </Link>
                                     </h2>

@@ -1,4 +1,39 @@
+'use client';
+import { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
+
+
 export default function ContactPage() {
+    const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
+    const form = useRef<HTMLFormElement>(null);
+
+    const sendEmail = (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setStatus({ type: null, message: '' });
+
+        if (form.current) {
+            emailjs.sendForm(
+                'service_xnauywb',
+                'template_9djdfsa',
+                form.current,
+                'jFZYrwejQJ5DP2eWR'
+            )
+                .then((result) => {
+                    console.log(result.text);
+                    setStatus({ type: 'success', message: 'Message sent successfully! We will get back to you soon.' });
+                    form.current?.reset();
+                }, (error) => {
+                    console.log(error.text);
+                    setStatus({ type: 'error', message: 'Failed to send message. Please try again later.' });
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    };
+
     return (
         <div className="bg-gray-50 min-h-screen py-12">
             <div className="mx-auto max-w-3xl px-6 lg:px-8">
@@ -11,16 +46,23 @@ export default function ContactPage() {
                         We&apos;d love to hear from you. Whether you have a news tip, advertising inquiry, or just want to say hello, fill out the form below.
                     </p>
 
-                    <form className="space-y-6">
+                    {status.message && (
+                        <div className={`p-4 mb-6 rounded-md ${status.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                            {status.message}
+                        </div>
+                    )}
+
+                    <form ref={form} onSubmit={sendEmail} className="space-y-6">
                         <div>
-                            <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+                            <label htmlFor="user_name" className="block text-sm font-medium leading-6 text-gray-900">
                                 Name
                             </label>
                             <div className="mt-2">
                                 <input
                                     type="text"
-                                    name="name"
-                                    id="name"
+                                    name="user_name"
+                                    id="user_name"
+                                    required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-green sm:text-sm sm:leading-6 px-3"
                                     placeholder="Your Name"
                                 />
@@ -28,14 +70,15 @@ export default function ContactPage() {
                         </div>
 
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                            <label htmlFor="user_email" className="block text-sm font-medium leading-6 text-gray-900">
                                 Email
                             </label>
                             <div className="mt-2">
                                 <input
                                     type="email"
-                                    name="email"
-                                    id="email"
+                                    name="user_email"
+                                    id="user_email"
+                                    required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-green sm:text-sm sm:leading-6 px-3"
                                     placeholder="you@example.com"
                                 />
@@ -52,10 +95,10 @@ export default function ContactPage() {
                                     name="subject"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-green sm:text-sm sm:leading-6 px-3"
                                 >
-                                    <option>General Inquiry</option>
-                                    <option>News Tip / Editorial</option>
-                                    <option>Advertising & Partnerships</option>
-                                    <option>Technical Support</option>
+                                    <option value="General Inquiry">General Inquiry</option>
+                                    <option value="News Tip / Editorial">News Tip / Editorial</option>
+                                    <option value="Advertising & Partnerships">Advertising & Partnerships</option>
+                                    <option value="Technical Support">Technical Support</option>
                                 </select>
                             </div>
                         </div>
@@ -69,6 +112,7 @@ export default function ContactPage() {
                                     id="message"
                                     name="message"
                                     rows={4}
+                                    required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-green sm:text-sm sm:leading-6 px-3"
                                     defaultValue={''}
                                 />
@@ -78,9 +122,10 @@ export default function ContactPage() {
                         <div>
                             <button
                                 type="submit"
-                                className="flex w-full justify-center rounded-md bg-brand-green px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green transition-colors"
+                                disabled={loading}
+                                className="flex w-full justify-center rounded-md bg-brand-green px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                Send Message
+                                {loading ? 'Sending...' : 'Send Message'}
                             </button>
                         </div>
                     </form>
@@ -89,12 +134,12 @@ export default function ContactPage() {
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="bg-white p-6 rounded-lg shadow-sm">
                         <h3 className="font-bold text-lg mb-2">Editorial Team</h3>
-                        <p className="text-gray-600">editor@sportykenya.com</p>
-                        <p className="text-gray-600">+254 700 000 000</p>
+                        <p className="text-gray-600">sportykenya.co.ke@gmail.com</p>
+                        <p className="text-gray-600">+254 741 213889</p>
                     </div>
                     <div className="bg-white p-6 rounded-lg shadow-sm">
                         <h3 className="font-bold text-lg mb-2">Advertising</h3>
-                        <p className="text-gray-600">ads@sportykenya.com</p>
+                        <p className="text-gray-600">sportykenya.co.ke@gmail.com</p>
                         <p className="text-gray-600">Nairobi, Kenya</p>
                     </div>
                 </div>

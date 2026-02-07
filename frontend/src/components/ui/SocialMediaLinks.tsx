@@ -98,7 +98,7 @@ export const socialLinks: SocialLink[] = [
     {
         name: 'WhatsApp',
         platform: 'whatsapp',
-        url: 'https://wa.me/254117861023',
+        url: 'https://wa.me/254741213889',
         icon: WhatsappIcon,
         color: '#25D366',
         hoverColor: 'hover:text-[#25D366]',

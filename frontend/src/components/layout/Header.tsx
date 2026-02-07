@@ -24,6 +24,7 @@ export function Header({ navigation = [] }: HeaderProps) {
         { title: 'Football', slug: '/football' },
         { title: 'Kenyan Sports', slug: '/kenyan-sports' },
         { title: 'Media', slug: '/media' },
+        { title: 'Contact', slug: '/contact' },
     ];
 
     return (

@@ -38,6 +38,7 @@ export const HERO_STORIES_QUERY = groq`*[_type == "heroStory"] | order(priority 
 // News Articles for the homepage grid (only those with showOnGrid=true)
 export const NEWS_GRID_QUERY = groq`*[_type == "newsArticle" && showOnGrid == true] | order(publishedAt desc) {
   _id,
+  _type,
   title,
   slug,
   mainImage,
@@ -57,6 +58,7 @@ export const NEWS_GRID_QUERY = groq`*[_type == "newsArticle" && showOnGrid == tr
 // All News Articles (for news page)
 export const ALL_NEWS_QUERY = groq`*[_type == "newsArticle"] | order(publishedAt desc) {
   _id,
+  _type,
   title,
   slug,
   mainImage,
@@ -76,6 +78,7 @@ export const ALL_NEWS_QUERY = groq`*[_type == "newsArticle"] | order(publishedAt
 // Football Articles
 export const FOOTBALL_ARTICLES_QUERY = groq`*[_type == "footballArticle"] | order(publishedAt desc) {
   _id,
+  _type,
   title,
   slug,
   mainImage,
@@ -97,6 +100,7 @@ export const FOOTBALL_ARTICLES_QUERY = groq`*[_type == "footballArticle"] | orde
 // Kenyan Sports Articles
 export const KENYAN_SPORTS_QUERY = groq`*[_type == "kenyanSportsArticle"] | order(publishedAt desc) {
   _id,
+  _type,
   title,
   slug,
   mainImage,

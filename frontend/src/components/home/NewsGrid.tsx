@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { getArticleHref } from '@/lib/utils';
 
 interface Category {
     title: string;
@@ -69,11 +70,11 @@ export function NewsGrid({ posts = [] }: NewsGridProps) {
                                         })}
                                     </span>
                                 </div>
-                                <h3 className="text-xl font-bold mb-2 leading-tight group-hover:text-brand-red transition-colors">
-                                    <Link href={`/news/${item.slug.current}`}>
+                                <h2 className="text-xl font-bold mb-3 leading-tight group-hover:text-brand-red transition-colors">
+                                    <Link href={getArticleHref(item)}>
                                         {item.title}
                                     </Link>
-                                </h3>
+                                </h2>
                                 <p className="text-gray-600 text-sm line-clamp-3">
                                     {item.excerpt}
                                 </p>
