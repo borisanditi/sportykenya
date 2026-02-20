@@ -27,7 +27,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const settings = await client.fetch(SETTINGS_QUERY);
+  let settings = null;
+  try {
+    settings = await client.fetch(SETTINGS_QUERY);
+  } catch (error) {
+    console.error('Failed to fetch Sanity settings:', error);
+  }
 
   return (
     <html lang="en">

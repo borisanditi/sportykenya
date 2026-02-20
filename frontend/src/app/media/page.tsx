@@ -5,7 +5,12 @@ import MediaGallery from '@/components/media/MediaGallery';
 export const revalidate = 60; // Revalidate every minute
 
 export default async function MediaPage() {
-    const mediaItems = await client.fetch(MEDIA_ITEMS_QUERY);
+    let mediaItems: any[] = [];
+    try {
+        mediaItems = await client.fetch(MEDIA_ITEMS_QUERY);
+    } catch (error) {
+        console.error('Failed to fetch Sanity media items:', error);
+    }
 
     const videos = mediaItems.filter((item: any) => item.mediaType === 'video');
     const photos = mediaItems.filter((item: any) => item.mediaType === 'image' || item.mediaType === 'gallery');

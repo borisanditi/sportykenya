@@ -9,11 +9,19 @@ import { BREAKING_NEWS_QUERY, HERO_STORIES_QUERY, NEWS_GRID_QUERY } from "@/lib/
 export const revalidate = 60; // Revalidate every 60 seconds
 
 export default async function Home() {
-  const [breakingNews, heroStories, gridPosts] = await Promise.all([
-    client.fetch(BREAKING_NEWS_QUERY),
-    client.fetch(HERO_STORIES_QUERY),
-    client.fetch(NEWS_GRID_QUERY),
-  ]);
+  let breakingNews = [];
+  let heroStories = [];
+  let gridPosts = [];
+
+  try {
+    [breakingNews, heroStories, gridPosts] = await Promise.all([
+      client.fetch(BREAKING_NEWS_QUERY),
+      client.fetch(HERO_STORIES_QUERY),
+      client.fetch(NEWS_GRID_QUERY),
+    ]);
+  } catch (error) {
+    console.error('Failed to fetch Sanity data for home page:', error);
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
